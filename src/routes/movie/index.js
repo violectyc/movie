@@ -3,6 +3,10 @@ export default {
   component: () => import("@/views/Movie"),
   children: [
     {
+      path : 'city',
+      component : () => import('@/components/CList')
+    },
+    {
       path: "/movie",
       redirect: "/movie/nowPlaying"
     },

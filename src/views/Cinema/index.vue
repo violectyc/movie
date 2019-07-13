@@ -13,7 +13,7 @@
           特色 <i class="iconfont icon-lower-triangle"></i>
         </div>
       </div>
-
+      <MinaList/>
     </div>
     <TabBar />
   </div>
@@ -23,13 +23,14 @@
 
 import TabBar from "@/components/TabBar";
 import Header from "@/components/Header"
-
+import MinaList from '@/components/MinaList'
 export default {
   name: "Cinema",
   components: {
 
     TabBar,
-    Header
+    Header,
+    MinaList
 
   }
 };

@@ -2,31 +2,36 @@
   <div id="main">
     <Header title="喵喵电影" />
     <div id="content">
-        <div class="movie_menu">
-            <router-link tag="div" to="/movie/city" class="city_name">
-                <span>{{$store.state.city.nm}}</span><i class="iconfont icon-lower-triangle"></i>
-            </router-link>
-            <div class="hot_swtich">
-                <router-link tag="div" to="/movie/nowPlaying" class="hot_item">正在热映</router-link>
-                <router-link tag="div" to="/movie/comingSoon" class="hot_item">即将上映</router-link>
-            </div>
-            <router-link tag="div" to="/movie/search" class="search_entry">
-                <i class="iconfont icon-sousuo"></i>
-            </router-link>
-
+      <div class="movie_menu">
+        <router-link tag="div" to="/movie/city" class="city_name">
+          <span>{{ $store.state.city.nm }}</span
+          ><i class="iconfont icon-lower-triangle"></i>
+        </router-link>
+        <div class="hot_swtich">
+          <router-link tag="div" to="/movie/nowPlaying" class="hot_item"
+            >正在热映</router-link
+          >
+          <router-link tag="div" to="/movie/comingSoon" class="hot_item"
+            >即将上映</router-link
+          >
         </div>
-        <keep-alive>
-            <router-view />
-        </keep-alive>
+        <router-link tag="div" to="/movie/search" class="search_entry">
+          <i class="iconfont icon-sousuo"></i>
+        </router-link>
+      </div>
+      <keep-alive>
+        <router-view />
+      </keep-alive>
     </div>
     <TabBar />
-      <router-view name="detail"></router-view>
+    <router-view name="detail"></router-view>
   </div>
 </template>
 
 <script>
 import Header from "@/components/Header";
 import TabBar from "@/components/TabBar";
+import { Dialog } from "vant";
 export default {
   name: "Movie",
   components: {
@@ -34,28 +39,34 @@ export default {
     TabBar
   },
   mounted() {
-    this.getLocation()
+    this.getLocation();
   },
-  methods:{
-    getLocation(){
-      this.axios.get('/api/getLocation').then(res=>{
-        const {msg,data} = res.data;
-        if(msg==='ok'){
+  methods: {
+    getLocation() {
+      this.axios.get("/api/getLocation").then(res => {
+        const { msg, data } = res.data;
+        console.log("location");
+        if (msg === "ok") {
           const nm = data.nm;
           const id = data.id;
-          if(this.$store.state.city.id===id){return;}
-          this.Dialog.confirm({
-            title: '定位',
+          if (this.$store.state.city.id == id) {
+            return;
+          }
+          Dialog.confirm({
+            title: "定位",
             message: nm
-          }).then(() => {
-            window.localStorage.setItem('nowNm',nm);
-            window.localStorage.setItem('nowId',id);
-            this.$router.push('/movie/nowPlaying');
-          }).catch(() => {
-            // on cancel
-          });
+          })
+            .then(() => {
+              window.localStorage.setItem("nowNm", nm);
+              window.localStorage.setItem("nowId", id);
+              window.location.reload();
+              console.log(nm);
+            })
+            .catch(() => {
+              // on cancel
+            });
         }
-      })
+      });
     }
   }
 };
