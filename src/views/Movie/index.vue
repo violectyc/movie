@@ -20,6 +20,7 @@
         </keep-alive>
     </div>
     <TabBar />
+      <router-view name="detail"></router-view>
   </div>
 </template>
 
@@ -33,7 +34,29 @@ export default {
     TabBar
   },
   mounted() {
-
+    this.getLocation()
+  },
+  methods:{
+    getLocation(){
+      this.axios.get('/api/getLocation').then(res=>{
+        const {msg,data} = res.data;
+        if(msg==='ok'){
+          const nm = data.nm;
+          const id = data.id;
+          if(this.$store.state.city.id===id){return;}
+          this.Dialog.confirm({
+            title: '定位',
+            message: nm
+          }).then(() => {
+            window.localStorage.setItem('nowNm',nm);
+            window.localStorage.setItem('nowId',id);
+            this.$router.push('/movie/nowPlaying');
+          }).catch(() => {
+            // on cancel
+          });
+        }
+      })
+    }
   }
 };
 </script>
