@@ -12,6 +12,10 @@ export default {
     },{
       path:'comingSoon',
       component:()=>import('@/components/ComingSoon')
+    },
+    {
+      path : 'search',
+      component : () => import('@/components/Search')
     },{
       path : 'detail/1/:movieId',
       components:{
